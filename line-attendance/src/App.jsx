@@ -24,10 +24,10 @@ const LIFF_ID = "2010319877-oIjxK70W";
 
 // ──────────────────────────────────────────────────────────
 // 👥 グループ識別子（Firebaseのデータ保存パス）
-// stingerサークル用: "stinger_circle"
-// stinger女子用:     "stinger_girls"
+// stingerサークル用: "line-attendance-circle"
+// stinger女子用:     "line-attendance"
 // ──────────────────────────────────────────────────────────
-const GROUP_PATH = "stinger_girls"; // ← このファイルに応じて変更
+const GROUP_PATH = "line-attendance"; // ← このファイルに応じて変更
 
 // ──────────────────────────────────────────────────────────
 // 🔑 管理者権限を持つLINEユーザーIDのリスト
