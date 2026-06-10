@@ -1,6 +1,14 @@
+import liff from "@line/liff";
 import { useState, useEffect } from "react";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { initializeApp } from "firebase/app";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  set,
+  remove
+} from "firebase/database";
 
 // ──────────────────────────────────────────────────────────
 // 🔥 Firebase設定
@@ -102,24 +110,40 @@ export default function App() {
 
   // LIFF初期化
   useEffect(() => {
-    const initLiff = async () => {
-      try {
-        await liff.init({ liffId: LIFF_ID });
-        if (liff.isLoggedIn()) {
-          const profile = await liff.getProfile();
-          setLineUser({ userId: profile.userId, displayName: profile.displayName, pictureUrl: profile.pictureUrl });
-        } else {
-          liff.login();
-        }
-      } catch (e) {
-        console.warn("LIFF not available (dev mode):", e.message);
-        setLineUser({ userId: "mock_dev_user_001", displayName: "開発テストユーザー", pictureUrl: null });
-      }
-      setLiffReady(true);
-    };
-    initLiff();
-  }, []);
+  const initLiff = async () => {
+    try {
+      await liff.init({
+        liffId: LIFF_ID,
+        withLoginOnExternalBrowser: true
+      });
 
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      const profile = await liff.getProfile();
+
+      setLineUser({
+        userId: profile.userId,
+        displayName: profile.displayName,
+        pictureUrl: profile.pictureUrl
+      });
+
+    } catch (err) {
+      console.error(err);
+
+      setLineUser({
+        userId: "dev-user",
+        displayName: "開発ユーザー"
+      });
+    }
+
+    setLiffReady(true);
+  };
+
+  initLiff();
+}, []);
   // Firebaseリアルタイム同期
   useEffect(() => {
     const unsub = onValue(ref(db, `${GROUP_PATH}/events`), (snapshot) => {
