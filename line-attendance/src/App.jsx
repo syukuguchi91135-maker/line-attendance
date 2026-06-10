@@ -34,7 +34,7 @@ const GROUP_PATH = "line-attendance"; // ← このファイルに応じて変�
 // LINE Developers コンソール or liff.getProfile() で確認できる userId を追加
 // ──────────────────────────────────────────────────────────
 const ADMIN_USER_IDS = [
-  "tomtombaske", // 管理者1
+  "Ub38755772c803258b4321f268dab48ed", // 管理者1
   "kosuke9803", // 管理者2（複数人可）
 ];
 
